@@ -4,7 +4,9 @@ const express = require('express')
 const {
   createCar,
   getCars,
-  getCar
+  getCar,
+  deleteCar,
+  updateCar
 } = require ('../controllers/carController')
   
 
@@ -33,13 +35,9 @@ router.post('/', createCar)
 // })
 
 //DELETE a car
-router.delete('/:id', (req, res)=> {
-  res.json({msg: 'DELETE a car'})
-})
+router.delete('/:id', deleteCar)
 
 //UPDATE a car
-router.patch('/:id', (req, res)=> {
-  res.json({msg: 'UPDATE a car'})
-})
+router.patch('/:id', updateCar)
 
 module.exports = router

@@ -11,7 +11,7 @@ const getCars = async (req, res) => {
 
 
 //GET a single car
-const getCar = async (req, res)=> {
+const getCar = async (req, res) => {
   const { id } = req.params
   //getting the id property from the route parameters to try to find a single document
 
@@ -48,17 +48,47 @@ const createCar = async (req, res) => {
 
 
 //DELETE  a car
-const deletecar = async (req, res) => {
+const deleteCar = async (req, res) => {
   // first thing to do is grab the id from the route params
   const { id } = req.params
 
   if (!mongoose.Types.ObjectId.isValid(id)) { //this document will try to see if the id i have is valid
     return res.status(404).json({error: 'No Such Vehicle Here'})
   }
+  const car = await Car.findOneAndDelete({_id: id})//in mongoDB, the id is written like this _id property name
 
+  // look if a car is found, if one cant be found to be deleted, then this will be no
+  if(!car) { // if  the car doesn't exist, i want to get an error
+    return res.status(400).json({error: 'No Such Vehicle Here'})
+  }
+
+  res.status(200).json(car)//everything is ok, go ahead and delete
 }
 
+
 //UPDATE a car
+const updateCar = async (req, res) => {
+  
+  const { id } = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(id)) { 
+    return res.status(404).json({error: 'No Such Vehicle Here'})
+  }
+
+  const car = await Car.findOneAndUpdate({_id: id}, {
+    ...req.body
+  })
+  
+  if(!car) { 
+    return res.status(400).json({error: 'No Such Vehicle Here'})
+  }
+
+  res.status(200).json(car)
+  
+}
+
+
+
 
 
 
@@ -66,5 +96,7 @@ module.exports = {
   getCars,
   getCar,
   createCar,
+  deleteCar,
+  updateCar
 
 }
