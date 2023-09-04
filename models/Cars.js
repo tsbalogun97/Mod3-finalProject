@@ -21,7 +21,7 @@ const carSchema = new Schema(
     available: {
       type: Boolean,
     },
-    }, {timestamps: true}
+    }, 
   
   );
 
