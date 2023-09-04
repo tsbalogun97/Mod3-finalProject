@@ -27,5 +27,5 @@ const carSchema = new Schema(
 
 module.exports = mongoose.model("Car", carSchema);
 
-//this will find all of the cars in the collections
-car.find()
+//this will find all of the cars in the collections folder
+// car.find()
