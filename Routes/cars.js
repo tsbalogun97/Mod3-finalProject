@@ -1,4 +1,5 @@
 const express = require('express')
+const Car = require('../models/carmodel')
 
 const router = express.Router()
 
@@ -13,7 +14,16 @@ router.get('/:id', (req, res)=> {
 })
 
 // POST a new car
-router.post('/', (req, res)=> {
+router.post('/', async (req, res)=> {
+  // passes all of the request body to the request object
+  const {make, model, year, image, available} = req.body
+  try{
+    const Car = await Car.create({make, model, year, image, available})
+    res.status(200).json(car)
+  }catch(error) {
+
+  }
+  
   res.json({msg: 'POST a new car'})
 })
 
