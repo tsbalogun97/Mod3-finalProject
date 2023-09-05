@@ -33,11 +33,36 @@ const getCar = async (req, res) => {
 //CREATE a new car
 const createCar = async (req, res) => {
   //grabbing these properties from the request body
-  const {make, model, year, image, available} = req.body
+  const {make, model, year, image, mileage} = req.body
+
+  let emptyFields = []// the idea here is to detect which fields are empty if when they send the Post request and that info can be send back to the client
+  if(!make) {
+    emptyFields.push('make')
+  }
+
+  if(!model) {
+    emptyFields.push('model')
+  }
+  
+  if(!year) {
+    emptyFields.push('year')
+  }
+  
+  if(!image) {
+    emptyFields.push('image')
+  }
+  
+  if(!mileage) {
+    emptyFields.push('mileage')
+  }
+
+  if(emptyFields.lenght > 0) {
+    return res.status(400).json({ error: 'Please fillin all of the fields', emptyFields})//this will be the message that will populate on the frontend underneath the form and 
+  }
   
   //add document to DB
   try{
-    const car = await Car.create({make, model, year, image, available})
+    const car = await Car.create({make, model, year, image, mileage})
     //creates a new document with those 5 properties
     res.status(200).json(car)
   }catch(error) {
