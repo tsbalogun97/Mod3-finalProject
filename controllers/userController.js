@@ -25,7 +25,7 @@ const signupUser = async (req, res) => {
       // create a token
       const token = createToken(user._id)
       
-      res.status(200).json({email, token})//if everything goes well this will spin up
+      res.status(200).json({email, token})//if everything goes well this will spin up. *token argument replaces the initial user inside res.status(200).json({email, user})
     
     } catch(error) {
       res.status(400).json({error: error.message})//if not, this error message will spin up
