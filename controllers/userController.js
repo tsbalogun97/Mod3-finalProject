@@ -2,7 +2,7 @@ const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
 const createToken = (_id) => {// this function is what generates the token for the user's signup/login functions. *the agument _id is passed because it will be part of the payload of the token
-  jwt.sign({_id}, process.env.SECRETE )
+  return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d'} )//created a secret passcode for user with expires in 3 days
 
 }
 
@@ -14,7 +14,6 @@ const loginUser = async (req, res) => {
 }
 
 
-
 //signup user
 const signupUser = async (req, res) => {
   
@@ -22,8 +21,11 @@ const signupUser = async (req, res) => {
 
     try {
       const user = await User.signup(email, password)
+
+      // create a token
+      const token = createToken(user._id)
       
-      res.status(200).json({email, user})//if everything goes well this will spin up
+      res.status(200).json({email, token})//if everything goes well this will spin up
     
     } catch(error) {
       res.status(400).json({error: error.message})//if not, this error message will spin up
@@ -33,3 +35,4 @@ const signupUser = async (req, res) => {
 }
 
 module.exports = {signupUser, loginUser}
+
