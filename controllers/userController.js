@@ -1,4 +1,12 @@
 const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
+
+const createToken = (_id) => {// this function is what generates the token for the user's signup/login functions. *the agument _id is passed because it will be part of the payload of the token
+  jwt.sign({_id}, process.env.SECRETE )
+
+}
+
+
 
 // login user
 const loginUser = async (req, res) => {
