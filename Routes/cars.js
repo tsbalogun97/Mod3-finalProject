@@ -8,9 +8,12 @@ const {
   deleteCar,
   updateCar
 } = require ('../controllers/carController')
-
+const requireAuth = require('../middleware/requireAuth')
 
 const router = express.Router()
+
+//require auth for all car routes
+router.use(requireAuth)//firing this middleware function before creating the CRUD protects them. users have to authenticate before executing each action.
 
 // GET all cars
 router.get('/', getCars)
