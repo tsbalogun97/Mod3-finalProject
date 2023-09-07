@@ -29,9 +29,9 @@ userSchema.statics.signup = async function(email, password) {
     throw Error('Email is not valid')
   }
   
-  if (!validator.isStrongPassword(password)) {// this checks if the password is strong or not
-    throw Error('Password is not Strong Enough')
-  }
+  // if (!validator.isStrongPassword(password)) {this checks if the password is strong or not
+  //   throw Error('Password is not Strong Enough')
+  // }
 
   const exists = await this.findOne({ email })
 

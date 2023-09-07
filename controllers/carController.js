@@ -5,7 +5,9 @@ const mongoose = require('mongoose')
 
 //GET all cars
 const getCars = async (req, res) => {
-  const cars = await Car.find({}).sort({createdAt: -1})//leaving this blank  and sorting them is a way to get all of the objects in a descending order
+  const user_id = req.user._id
+
+  const cars = await Car.find({ user_id }).sort({createdAt: -1})//leaving this blank  and sorting them is a way to get all of the objects in a descending order
   res.status(200).json(cars)
 }
 
@@ -27,8 +29,6 @@ const getCar = async (req, res) => {
   res.status(200).json(car)//means all good, the car is available
 }
   
-  
-
 
 //CREATE a new car
 const createCar = async (req, res) => {
@@ -56,13 +56,14 @@ const createCar = async (req, res) => {
     emptyFields.push('mileage')
   }
 
-  if(emptyFields.lenght > 0) {
+  if(emptyFields.length > 0) {
     return res.status(400).json({ error: 'Please fillin all of the fields', emptyFields})//this will be the message that will populate on the frontend underneath the form and 
   }
   
   //add document to DB
   try{
-    const car = await Car.create({make, model, year, image, mileage})
+    const user_id = req.user._id
+    const car = await Car.create({make, model, year, image, mileage, user_id})
     //creates a new document with those 5 properties
     res.status(200).json(car)
   }catch(error) {

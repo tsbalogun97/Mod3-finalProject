@@ -15,7 +15,7 @@ const carSchema = new Schema(
       required: true
     },
     year: {
-      type: String,
+      type: Number,
       required: true
     },
     image: {
@@ -23,14 +23,20 @@ const carSchema = new Schema(
       required: true
     },
     mileage: {
-      type: String,
+      type: Number,
       required: true
     },
-    },
+    
+    user_id: {
+      type: String,
+      required: true
+    }
   
-  );
+  
+  }, 
+  )
 
-module.exports = mongoose.model('Car', carSchema);
+module.exports = mongoose.model('Car', carSchema)
 
 //this will find all of the cars in the collections folder
 // car.find()
