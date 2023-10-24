@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const cors = require('cors')
 const express = require("express");
 const mongoose = require("mongoose");
 const carRoutes = require("./Routes/cars");
@@ -12,11 +12,17 @@ const app = express();
 //for any request that comes in, it looks to see if it has some data and if it does, then it passes
 //and attaches it to the request object
 app.use(express.json());
-
+app.use(cors())
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+  })
+);
 
 // routes handler
 app.use("/api/cars", carRoutes);
@@ -36,4 +42,4 @@ mongoose
     console.log(error);
   });
 
-process.env;
+
